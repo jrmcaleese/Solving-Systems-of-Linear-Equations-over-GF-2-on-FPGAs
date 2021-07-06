@@ -173,7 +173,7 @@ void InvertRows(int arr1[][Variables], int size)
 
 int PrintreducedArrays(bool repeat) //prints A[] and b[] in a readable format
 {
-    if(reduceSystem==true)
+    if(ReduceSystem==true)
     {
         if(repeat == false)
         {

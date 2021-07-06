@@ -1,8 +1,6 @@
-======================================================================================================================================================
-======================================================================================================================================================
-A Modified Exhaustive Search Algorithm for Finding Solutions to Systems of Equations over GF(2)
+A Modified Exhaustive Search Algorithm for Solving Systems of Quadratic Equations over GF(2)
 Author: James R. McAleese
-Last Updated: July 3rd, 2021
+Last Updated: July 6th, 2021
 
 TO USE: 
 
@@ -11,26 +9,32 @@ TO USE:
 
     - MaxCombs: The number of possible 2 equation linear combinations for a system with a size equal to InitEqs
 
-    - Equations: The maximum number of equations in the system based on the InitEqs plus MaxCombs
+    - Equations: The maximum number of equations in the system. Equal to InitEqs + MaxCombs
 
-    - Variables: The number of variables in the system
+    - Variables: The number of variables per equation in the system
     
     - MaxBin:The maximum possible decimal value of a binary number with the same number of digits as variables in your system. 
              This is defined manually because C does not natively allow exponentiation without functions and does not allow function calling in declarations/define statements
 
     - MinSame: The minimum number of coefficients that two equations must have in common to pass the SimCheck2d() function
 
+    -Loop Reduce: The number of times the program attempts to reduce the initial system. Only takes effect if both ReduceSystem and RepeatReduce are TRUE
+
 
 2. This program can perform a variety of functions on various kinds of systems, toggle the Usage Bools below to control the output:
-    -To use a preset system: Set RandSystem equal to FALSE
 
-    -To use a random system: Set RandSystem equal to TRUE
+    -RandSystem : When set to TRUE, InitSystem and InitSol are ignored and instead a random system is generated.
+                  When set to FALSE, InitSystem and InitSol are used as program input.
 
-    -To reduce the size of the initial system: Set reduceSystem to TRUE
+    -doLinCombs: When set to TRUE the linear combinations of the input system are found and appended to the system before solutions are found
 
-    -To reduce/streamline the exhaustive search: Set reduceSearch to TRUE
+    -ReduceSystem: When set to TRUE the program attempts to reduce the complexity of the input system by replacing equations with linear combinations containing fewer coefficients
 
-    -To find the linear combinations of the input system before searching for solutions: Set doLinCombs to TRUE
+    -ReduceSearch: When set to TRUE the program uses whatever alternate method of exhaustive search is being tested instead of the default
+
+    -RepeatReduce: WHen set to TRUE the program loops and attempts to repeatedly reduce the system and further decrease complexity
+
+    
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -45,7 +49,9 @@ To display more information toggle the Debug Bools below:
 
     - ListSols: When set to TRUE, the program prints all the valid solutions for a system are printed in a single list at the end of a search
 
-    - SimCheckDebug: When set to TRUE, the program prints the full readout of the internal math of the SimCheck2d() function
+    - csvFriendly: When set to TRUE the solutions of ListSols are printed in a format that is copyable into a csv or excel file.
+
+    - SimCheckDebug: When set to TRUE, the program prints the full readout of the internal math of the SimCheck() function
 
 ======================================================================================================================================================
 ======================================================================================================================================================
