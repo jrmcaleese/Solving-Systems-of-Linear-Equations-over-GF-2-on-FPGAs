@@ -13,8 +13,8 @@
 
 //Usage bools
 extern bool RandSystem;
-extern bool reduceSystem;
-extern bool reduceSearch;
+extern bool ReduceSystem;
+extern bool ReduceSearch;
 extern bool doLinCombs;
 extern bool RepeatReduce;
 
