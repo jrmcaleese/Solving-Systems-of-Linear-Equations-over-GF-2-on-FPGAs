@@ -1,6 +1,6 @@
 A Modified Exhaustive Search Algorithm for Solving Systems of Quadratic Equations over GF(2)
 Author: James R. McAleese
-Last Updated: July 6th, 2021
+Last Updated: July 14th, 2021
 
 TO USE: 
 
