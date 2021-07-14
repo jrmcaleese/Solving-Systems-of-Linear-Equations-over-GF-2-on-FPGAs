@@ -25,8 +25,6 @@ extern int reducedA[MaxCombs][Variables];
 extern int reducedb[MaxCombs];
 extern int AddOne[Variables];
 extern int samecoef[MaxCombs];
-extern int testarray[1][Variables];
-extern int size;
 
 int randbit(void);
 int GenArrays(void);
@@ -36,6 +34,6 @@ int LinCombs2d(int arr[InitEqs][Variables]);
 int PrintLCArrays(void);
 void InvertRows(int arr1[][Variables], int size);
 int PrintreducedArrays(bool repeat);
-
+int BinaryValid(void);
 
 #endif

@@ -22,8 +22,6 @@ int tempb[MaxCombs] = { 0 }; //same as tempA but for the RHS of the input system
 int reducedA[MaxCombs][Variables] = { 0 }; //holds the input system after it's been reduced
 int reducedb[MaxCombs] = { 0 }; //holds the RHS of the input system after it's been recued
 int samecoef[MaxCombs] = { 0 }; //for counting the number of coefficients in common between two equations during SimCheck
-int testarray[1][Variables] = { 0,1,1,0,1,0,1,1,0,0 };
-int size = 0;
 
 int randbit(void) //Generates random bits
 { 
@@ -31,6 +29,31 @@ int randbit(void) //Generates random bits
     return n;
 }
 
+int BinaryValid(void)
+{
+    if (ShowBinaryValids == true) //print the full binary readout of the solution just found
+    {
+        printf("VALID SOLUTION FOUND = %d\n", (k + 1)); //FIX THIS LINE. VALID SOLUTION FOUND WILL NOW JUST PRINT A 1 OR 0 IN CURRENT STATE
+        if (ShowFullDebug == false)
+        {
+            printf("x = {");
+            for (i = 0; i < Variables; i++)
+            {
+                printf("%d", x[i]);
+                if (i == (Variables - 1))
+                {
+                    printf("}\n\n");
+                }
+                else
+                {
+                    printf(",");
+                }
+            }
+            printf("----------------\n\n");
+        }
+    }
+    return 1;
+}
 int GenArrays(void) //populates A[] and b[] with random bits, only up to the number of equations specified by InitEqs
 {
     srand(time(0));
@@ -137,6 +160,7 @@ int PrintLCArrays(void)
             printf(",");
         }
     }
+    return 1;
 }
 
 void InvertRows(int arr1[][Variables], int size)

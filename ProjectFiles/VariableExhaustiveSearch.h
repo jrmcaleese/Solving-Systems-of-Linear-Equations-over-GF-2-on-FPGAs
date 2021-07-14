@@ -14,8 +14,8 @@ void BinArrayAdd(void);
 void SystemDeterminance(int CurrentEqs);
 int GenerateSolutions(int arr1[MaxBin], int arr2[MaxBin], int arr3[MaxBin]);
 int PrintSolutions(int arr1[MaxBin], bool repeat);
-void ExhaustiveSearch(int LHS[][Variables], int RHS[], int v[MaxBin], int CurrentEqs);
-void VariableSearch(int LHS[][Variables], int RHS[], int v1[MaxBin], int v2[MaxBin], int vs[MaxBin], bool repeat);
+void ExhaustiveSearch(int LHS[][Variables], int RHS[], int v[MaxBin], int FirstEq, int LastEq);
+void VariableSearch(int LHS[][Variables], int RHS[], int v1[MaxBin], int v2[MaxBin], int vs[MaxBin], int FirstEq, int LastEq, bool repeat);
 
 
 

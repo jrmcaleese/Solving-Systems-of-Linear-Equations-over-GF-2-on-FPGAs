@@ -72,9 +72,9 @@ To display more information toggle the Debug Bools below:
 
 //Usage bools
 bool RandSystem = false; //toggles whether the program uses a preset system or generates a random one
-bool doLinCombs = false; //toggles whether A and b are fully populated with their linear combinations
-bool ReduceSystem = true; //toggles whether the SimCheck function is used to reduce the system
-bool ReduceSearch = true; //toggles whether the ExhaustiveSearch function compares the number of 1s to skip certain solutions
+bool doLinCombs = true; //toggles whether A and b are fully populated with their linear combinations
+bool ReduceSystem = false; //toggles whether the SimCheck function is used to reduce the system
+bool ReduceSearch = false; //toggles whether the ExhaustiveSearch function compares the number of 1s to skip certain solutions
 bool RepeatReduce = false; //toggles whether the system reduction happens once or happens repeatedly by LoopReduce times
 
 
@@ -167,23 +167,24 @@ int main()
                 printf("LinCombs: FAILED\n");
             }
         }
-        //InvertRows(A, Equations);
         PrintLCArrays();
     }
     else
     {
         PrintLCArrays();
-        //InvertRows(A, InitEqs);
-        PrintLCArrays();
     }
-    VariableSearch(A, b, valid, valid, validsols, false);
-    //InvertRows(A, InitEqs); //Resetting A to its original state to make sure it reduces properly
+    
+    f = 0;
+    for (g = 0; g < (Equations); g++)
+    {
+        VariableSearch(A, b, valid, valid, validsols, g, (g+1), false);
+    }
+    /*
 
     if(ReduceSystem==true) //main() follows these instructions if we are trying to reduce the size of the input system before searching for solutions
     {
         ZeroReset();
         SimCheck(A, tempA, reducedA, b, tempb, reducedb, false);
-        //InvertRows(reducedA,MaxCombs);
         if (ShowFullDebug == true)
         {
             printf("SimCheck: PASSED\n");
@@ -216,6 +217,7 @@ int main()
             }
         }
     }
+    */
     printf("\nEnd Program");
     return 0;   
 }
