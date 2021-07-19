@@ -15,9 +15,8 @@ void SimCheck(int arr1[][Variables], int arr2[][Variables], int arr3[][Variables
     and stores the resulting list
     of similar/reduced equations in reducedA
     */
-    int o = 0;
-    int m = 0;
-    int n = 0;
+    int h, i, j, k;
+    int m, n, o = 0;
     int rsize = sizeof(arr1[0]) / sizeof(arr1);
     for(i=0;i<(rsize-1);i++)
     {

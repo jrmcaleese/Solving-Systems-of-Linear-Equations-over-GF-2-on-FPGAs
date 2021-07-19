@@ -69,12 +69,13 @@ To display more information toggle the Debug Bools below:
 #include "VariableExhaustiveSearch.h"
 #include "SimilarityCheck.h"
 #include "ArrayHandling.h"
+#include "RefinedSearch.h"
 
 //Usage bools
 bool RandSystem = false; //toggles whether the program uses a preset system or generates a random one
 bool doLinCombs = false; //toggles whether A and b are fully populated with their linear combinations
-bool ReduceSystem = true; //toggles whether the SimCheck function is used to reduce the system
-bool ReduceSearch = true; //toggles whether the ExhaustiveSearch function compares the number of 1s to skip certain solutions
+bool ReduceSystem = false; //toggles whether the SimCheck function is used to reduce the system
+bool ReduceSearch = false; //toggles whether the ExhaustiveSearch function compares the number of 1s to skip certain solutions
 bool RepeatReduce = false; //toggles whether the system reduction happens once or happens repeatedly by LoopReduce times
 
 
@@ -82,20 +83,18 @@ bool RepeatReduce = false; //toggles whether the system reduction happens once o
 bool ShowBinaryValids = false; //toggles whether the just the decimal equivalents of the solutions are shown or the full binary solution sets.
 bool ShowFullDebug = false; //toggles detailed print statements for each tested solution. When false only valid solutions are displayed.
 bool ListSols = true; //toggles whether the full list of valid solutions is printed together at the end of each search
-bool csvFriendly = true; //lists the solutions in a format that is copyable to a csv or excel file
+bool csvFriendly = false; //lists the solutions in a format that is copyable to a csv or excel file
 bool SimCheckDebug = false; //toggles the debug print statements for the SimCheck2d function
 
 //The Input system is stored below with the Left Hand Side coefficients stored in InitSystem, and the Right Hand Side stored in InitSols
-int InitSystem[InitEqs][Variables] =
+int InitSystem[Equations][Variables] =
 {
-    //{0,0,0,1,0,1,0,1,1,1},//1
-    //{0,1,1,1,0,0,0,0,1,0},//2
-    //{0,1,1,0,0,1,0,1,0,1},//6
-    {0,0,0,1,0,1,0,1,1,1},//0
-    {0,1,1,1,0,0,0,0,1,0},//1
-    {0,0,0,0,1,0,1,1,0,1},//2
-    {1,1,0,1,1,0,0,0,0,1},//3
-    {0,1,0,0,0,0,0,1,0,0},//4
+    
+    {0,0,0,1,0,1,0,1,1,1,0},//0
+    {0,1,1,1,0,0,0,0,1,0,1},//1
+    {0,0,0,0,1,0,1,1,0,1,0},//2
+    {1,1,0,1,1,0,0,0,0,1,0},//3
+    {0,1,0,0,0,0,0,1,0,0,1},//4
     /*
     {0,0,0,1,0,1,0,1,1,1},
     {0,1,1,1,0,0,0,0,1,0},
@@ -114,11 +113,13 @@ int InitSystem[InitEqs][Variables] =
     {0,1,0,1}
     */
 };
-int InitSums[InitEqs] = { 0,1,0,0,1 };//{ 0,1,1 };{ 0,1,1,0 }; { 0,1,0,0,1,0,1,0,1,0 };
+int InitSums[InitEqs] = { 1,2,3,4,5 };//{ 0,1,1 };{ 0,1,1,0 }; { 0,1,0,0,1,0,1,0,1,0 };
 
 int main()
 {
     printf("Start Program\n"); //Marking the Start of the output file
+    int i, j;
+    /*
     if(RandSystem==true)
     {
         GA = GenArrays(); //Populate A[] and b[] with initial sets of random binary digits
@@ -152,6 +153,7 @@ int main()
         }
         printf("This is a preset system.\n\n");
     }
+    
     if (doLinCombs == true)//Linear combinations of A and b aren't always needed even when not reducing a system
     {
         LC1=LinCombs1d(b); //Calculate all possible Linear combinations of the initial equations in A[] and b[] and fill them in the remaining rows of the respective matrices
@@ -173,12 +175,34 @@ int main()
     else
     {
         PrintLCArrays();
-        //InvertRows(A, InitEqs);
-        PrintLCArrays();
     }
-    VariableSearch(A, b, valid, valid, validsols, false);
-    //InvertRows(A, InitEqs); //Resetting A to its original state to make sure it reduces properly
+    */
 
+    for (i = 0; i < Equations; i++)
+    {
+        for (j = 0; j < Variables; j++)
+        {
+            printf("%d,",InitSystem[i][j]);
+        }
+        printf("\n");
+    }
+    SortRows(InitSystem, RowWeights, ColWeights);
+    for (i = 0; i < Equations; i++)
+    {
+        for (j = 0; j < Variables; j++)
+        {
+            printf("%d,", InitSystem[i][j]);
+        }
+        printf("\n");
+    }
+
+    for (i = 0; i < Equations; i++)
+    {
+        printf("%d,", InitSums[i]);
+        printf("\n");
+    }
+    //VariableSearch(A, b, valid, valid, validsols, false);
+    /*
     if(ReduceSystem==true) //main() follows these instructions if we are trying to reduce the size of the input system before searching for solutions
     {
         ZeroReset();
@@ -198,7 +222,7 @@ int main()
 
         if (RepeatReduce == true)
         {
-            for (g = 0; g < (LoopReduce - 1); g++) //upper bound is (LoopReduce-1) because we have already reduced once by this point
+            for (i = 0; i < (LoopReduce - 1); i++) //upper bound is (LoopReduce-1) because we have already reduced once by this point
             {
                 ZeroReset();
                 SimCheck(reducedA, tempA, reducedA, reducedb, tempb, reducedb, true); //the last input is set to true so that after tempA and tempb are filled reduceA and reduceb are zeroed out before being repopulated.
@@ -216,6 +240,7 @@ int main()
             }
         }
     }
+    */
     printf("\nEnd Program");
     return 0;   
 }

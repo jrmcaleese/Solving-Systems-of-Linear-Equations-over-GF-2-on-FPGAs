@@ -8,8 +8,6 @@
 #include "SimilarityCheck.h"
 #include "ArrayHandling.h"
 
-
-int f, g, h, i, j, k;
 int InvCount = 0; //tracking the number of invalid solutions
 int SolCount = 0;
 int FinalCount = 0;
@@ -27,6 +25,7 @@ void ZeroReset(void)
     to avoid possible data errors when solving systems of multiple size
     or when variables don't rewrite properly between loop iterations
     */
+    int i;
     for (i=0;i<Variables;i++)
     {
         x[i]=0;
@@ -66,6 +65,7 @@ void BinArrayAdd(void)
     Generates the possible solution sets. In this for loop the Variables are treated as bits in a ripple carry adder so we can increment through all solutions. 
     Outside this for loop the carry bit has no effect and the sets are treated as arrays of individual values again.
     */
+    int i;
     for (i=(Variables-1);i>-1;i--) //this loop is a 1-bit ripple CarryBit adder looped into a multi-bit ripple CarryBit adder
     {
         y[i]=(x[i]^AddOne[i])^CarryBit; //XOR addition of the current elements in x and AddOne and then with the carrybit, all stored in y[i]
@@ -115,7 +115,7 @@ int GenerateSolutions(int v1[MaxBin],int v2[MaxBin], int vs[MaxBin])
     /*
     Listing all together the decimal representations of the solutions for the given system. Makes it easier to actually track patterns in solutions
     */
-    int c = 0;
+    int i,c = 0;
     for (i = 0; i < MaxBin; i++)
     {
         if ((v1[i] == 1)&&(v2[i] == 1))
@@ -128,11 +128,11 @@ int GenerateSolutions(int v1[MaxBin],int v2[MaxBin], int vs[MaxBin])
 }
 int PrintSolutions(int arr1[MaxBin],bool repeat)
 {
+    int i, count;
     if(csvFriendly==false)
     {
         if (SolCount > 0)
         {
-            int count;
             if (repeat == false)
             {
                 count = 1;
@@ -217,6 +217,7 @@ int PrintSolutions(int arr1[MaxBin],bool repeat)
 
 void ExhaustiveSearch(int LHS[][Variables],int RHS[], int v[MaxBin], int CurrentEqs)
 {
+    int i, j, k;
     /*
     1. The central search function of the whole program. On each loop, BinArrayAdd() is used to generate a new possible solution set as an array equal in length to the number of varaibles in the system, 
        incrementing all the way up to the MaxBin value. 
@@ -256,9 +257,9 @@ void ExhaustiveSearch(int LHS[][Variables],int RHS[], int v[MaxBin], int Current
             }
         }
         xOnes = 0;
-        for (f = 0; f < Variables; f++)
+        for (i = 0; i < Variables; i++)
         {
-            if (x[f] == 1)
+            if (x[i] == 1)
             {
                 xOnes = xOnes + 1;
             }
@@ -379,17 +380,18 @@ void ExhaustiveSearch(int LHS[][Variables],int RHS[], int v[MaxBin], int Current
 
 void VariableSearch(int LHS[][Variables], int RHS[], int v1[MaxBin], int v2[MaxBin], int vs[MaxBin], bool repeat) //A,b,valid,reducedvalid,validsols,repeat
 {
-    for (h = (Equations - SearchEqs); h > -1; h--) //The search loop of the function. Depending on the inputs for h, this loop iterates at least once depending on whether we want to test how solutions change as a system increases in size
+    int i;
+    for (i = (Equations - SearchEqs); i > -1; i--) //The search loop of the function. Depending on the inputs for h, this loop iterates at least once depending on whether we want to test how solutions change as a system increases in size
     {
         ZeroReset(); //Reset variables to ensure the search works properly on each iteration of the for loop
-        printf("For a %d Equation System with %d Variables:\n", (Equations - h), Variables); //print the current system size
-        ExhaustiveSearch(LHS, RHS, v1, h); //Search for all solutions in a system of this size
+        printf("For a %d Equation System with %d Variables:\n", (Equations - i), Variables); //print the current system size
+        ExhaustiveSearch(LHS, RHS, v1, i); //Search for all solutions in a system of this size
         if (ListSols == true) //Print the decimal equivalents of the solutions if desired
         {
             GenerateSolutions(v1, v2, vs);
             FinalCount = PrintSolutions(vs, repeat);
         }
-        SystemDeterminance((Equations - h)); //Print the determinance of the system at it's current size
+        SystemDeterminance((Equations - i)); //Print the determinance of the system at it's current size
         printf("Total Solutions, Reduced System: %d out of the %d tested\n\n", FinalCount, MaxBin); //print the total number of solutions found compared to the number tested
         printf("----------------------------------------------------------------------------------------------------\n");
         printf("||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\n");

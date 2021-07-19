@@ -17,9 +17,6 @@ int PrintSolutions(int arr1[MaxBin], bool repeat);
 void ExhaustiveSearch(int LHS[][Variables], int RHS[], int v[MaxBin], int CurrentEqs);
 void VariableSearch(int LHS[][Variables], int RHS[], int v1[MaxBin], int v2[MaxBin], int vs[MaxBin], bool repeat);
 
-
-
-extern int f, g,h,i,j,k; //blank Variables for looping
 extern int GA, LA, LC1, LC2, PA;
 extern int CoefProd; // product of a polynomial coefficient with the test variable
 extern int CarryBit; //carry bit needed in the binary counter
