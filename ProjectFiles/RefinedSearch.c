@@ -9,7 +9,6 @@
 #include "ArrayHandling.h"
 
 int RowWeights[Equations] = { 0 };
-int ColWeights[(Variables - 1)] = { 0 };
 
 void GetRowWeights(int arr1[Equations][Variables], int Weights[Equations])
 {
@@ -28,40 +27,18 @@ void GetRowWeights(int arr1[Equations][Variables], int Weights[Equations])
         Weights[i] = sum;
     }
 }
-void GetColWeights(int arr1[Equations][Variables], int Weights[(Variables-1)])
-{
-    int i, j;
-    int sum;
-    for (i = 0; i < (Variables-1); i++)
-    {
-        sum = 0;
-        for (j = 0; j < Equations; j++)
-        {
-            if (arr1[i][j] == 1)
-            {
-                sum++;
-            }
-        }
-        Weights[i] = sum;
-    }
-}
 
-void SortRows(int InputArray[Equations][Variables], int rw[Equations], int cw[(Variables-1)])
+void SortArray(int InputArray[Equations][Variables], int rw[Equations])
 {
-    int i, j, k;
+    int f, g, h, i, j, k;
     int temprow[Variables] = { 0 };
-    int tempcoef = 0;
+    int tempcoef[Equations] = { 0 };
     int tempweight = 0;
     int temp = 0;
+    int count = Variables - 1;
 
     GetRowWeights(InputArray, rw);
-    GetColWeights(InputArray, cw);
-    for (i = 0; i < Equations; i++)
-    {
-        printf("\nRowWeight[%d]=%d", i, rw[i]);
-    }
-    printf("\n");
-    //Rearrange the equations so the number of coefficients per matrix row decreases from top to bottom
+    //Sort the equations so the number of coefficients per matrix row decreases from top to bottom
     for (i = 0; i < (Equations-1); i++)
     {
         //Bubble sorting each row of the matrix
@@ -71,74 +48,50 @@ void SortRows(int InputArray[Equations][Variables], int rw[Equations], int cw[(V
             {
                 for (k = 0; k < (Variables); k++)
                 {
-                    temprow[k] = InputArray[i+1][k];
-                    InputArray[i+1][k] = InputArray[i][k];
-                    InputArray[i][k] = temprow[k];
+                    temprow[k] = InputArray[j+1][k];
+                    InputArray[j+1][k] = InputArray[j][k];
+                    InputArray[j][k] = temprow[k];
                 }
                 tempweight = rw[j+1];
                 rw[j+1] = rw[j];
                 rw[j] = tempweight;
-
-                temp = InitSums[j + 1];
-                InitSums[j + 1] = InitSums[j];
-                InitSums[j] = temp;
             }
         }
     }
-    /*
+    
     //Rearrange the columns in an attempt to create an upper triangle of zeroes in the matrix
-    for (i = 0; i < (Equations); i++)
+    for (i = 0; i < Equations; i++) //Increment through each row
     {
-        tempcoef = 0;
-        //If sorting the first row, follow these instructions
-        if (i == 0)
+        if (count < 0)
         {
-            
-            //For sorting an array, you need to subtract 1 from the for loop limit 
-            //to make sure you dont accidentally compare the last value against nothing. 
-            //The limit was already (Variables - 1) to account for the last value in the row being the RHS.
-            for (j = 0; j < (Variables - 2); j++)
+            break;
+        }
+        //Sort the columns based on the 1s in the current row of outer loop
+        for (j = 0; j < count; j++)
+        {
+            for (k = 0; k < count - 1 - j; k++)
             {
-                for (k = 0; k < (Variables - 2) - j; k++)
+                //If the value at this index in the current row is greater than the next value
+                //then swap the entire columns
+                if (InputArray[i][k] > InputArray[i][k + 1])
                 {
-                    if (InputArray[i][k] > InputArray[i][k + 1])
+                    for (h = 0; h < Equations; h++)
                     {
-                        tempcoef = InputArray[i][k];
-                        InputArray[i][k] = InputArray[i][k + 1];
-                        InputArray[i][k + 1] = tempcoef;
+                        tempcoef[h] = InputArray[h][k];
+                        InputArray[h][k] = InputArray[h][k + 1];
+                        InputArray[h][k + 1] = tempcoef[h];
                     }
                 }
             }
         }
-        //If sorting any row beyond the first, follow these instructions
-        else
+        //In the current row, find the first index with a one so we have a new stopping point when sorting the next row
+        for (j = 0; j < Variables - 1; j++)
         {
-            for (j = 0; j < (Variables - 2); j++)
+            if (InputArray[i][j] == 1)
             {
-                for (k = 0; k < (Variables - 2) - j; k++)
-                {
-                    //If the value one row up is 1,
-                    //then this column doesnt need to be moved
-                    if (InputArray[i - 1][k] == 1)
-                    {
-                        break;
-                    }
-                    //Otherwise, if the value one row up and one column over is 1,
-                    //then you've finished sorting for this row
-                    else if (InputArray[i - 1][k + 1] == 1)
-                    {
-                        break;
-                    }
-                    //otherwise continue sorting
-                    else if (InputArray[i][k] > InputArray[i][k + 1])
-                    {
-                        tempcoef = InputArray[i][k];
-                        InputArray[i][k] = InputArray[i][k + 1];
-                        InputArray[i][k + 1] = tempcoef;
-                    }
-                }
+                count = j;
+                break;
             }
         }
     }
-    */
 }

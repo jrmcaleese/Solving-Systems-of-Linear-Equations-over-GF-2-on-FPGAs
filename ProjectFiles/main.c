@@ -186,7 +186,8 @@ int main()
         }
         printf("\n");
     }
-    SortRows(InitSystem, RowWeights, ColWeights);
+    printf("==========\n");
+    SortArray(InitSystem, RowWeights);
     for (i = 0; i < Equations; i++)
     {
         for (j = 0; j < Variables; j++)
@@ -196,11 +197,7 @@ int main()
         printf("\n");
     }
 
-    for (i = 0; i < Equations; i++)
-    {
-        printf("%d,", InitSums[i]);
-        printf("\n");
-    }
+    
     //VariableSearch(A, b, valid, valid, validsols, false);
     /*
     if(ReduceSystem==true) //main() follows these instructions if we are trying to reduce the size of the input system before searching for solutions
