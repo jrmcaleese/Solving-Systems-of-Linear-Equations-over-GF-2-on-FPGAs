@@ -10,7 +10,7 @@
 
 
 void ZeroReset(void);
-void BinArrayAdd(void);
+void BinArrayAdd(int length, int arr1[], int arr2[]);
 void SystemDeterminance(int CurrentEqs);
 int GenerateSolutions(int arr1[MaxBin], int arr2[MaxBin], int arr3[MaxBin]);
 int PrintSolutions(int arr1[MaxBin], bool repeat);

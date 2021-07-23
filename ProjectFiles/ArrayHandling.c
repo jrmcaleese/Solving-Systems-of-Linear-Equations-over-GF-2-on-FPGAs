@@ -9,9 +9,9 @@
 
 int A[Equations][Variables] = { 0 };
 int b[Equations]={0};
-int AddOne[Variables] = { 0 };
-int x[Variables] = { 0 }; //an array for storing final results in the binary counter
-int y[Variables] = { 0 }; // an array for temp storing results in the binary counter
+int AddOne[Variables-1] = { 0 };
+int x[Variables-1] = { 0 }; //an array for storing final results in the binary counter
+int y[Variables-1] = { 0 }; // an array for temp storing results in the binary counter
 int EqSum[Equations] = { 0 }; //an array for storing the sums of each equation to test them against their respective values in b[]
 int invalid[MaxBin] = { 0 }; //an array for storing invalid solutions
 int valid[MaxBin] = { 0 }; //an array for marking the which solutions are valid
@@ -46,7 +46,7 @@ int GenArrays(void) //populates A[] and b[] with random bits, only up to the num
     {
         b[i]=randbit();
     } 
-    AddOne[(Variables-1)]=1;
+    AddOne[(Variables-2)]=1;
     return 1;
 }
 
@@ -61,7 +61,7 @@ int LoadArrays(void) //For Loading Preset Arrays into the program
         }
         b[i]=InitSums[i];
     }
-    AddOne[(Variables-1)]=1;
+    AddOne[(Variables-2)]=1;
     return 1;
 }
 

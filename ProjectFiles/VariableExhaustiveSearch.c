@@ -41,9 +41,9 @@ void ZeroReset(void)
     {
         samecoef[i] = 0;
     }
-    for (i=0;i<Variables;i++)
+    for (i=0;i<Variables-1;i++)
     {
-        if(i<(Variables-1))
+        if(i<(Variables-2))
         {
             AddOne[i]=0;
         }
@@ -59,22 +59,22 @@ void ZeroReset(void)
     CarryBit=0;
 }
 
-void BinArrayAdd(void)
+void BinArrayAdd(int length, int arr1[], int arr2[])
 {
     /*
     Generates the possible solution sets. In this for loop the Variables are treated as bits in a ripple carry adder so we can increment through all solutions. 
     Outside this for loop the carry bit has no effect and the sets are treated as arrays of individual values again.
     */
     int i;
-    for (i=(Variables-1);i>-1;i--) //this loop is a 1-bit ripple CarryBit adder looped into a multi-bit ripple CarryBit adder
+    for (i=length;i>-1;i--) //this loop is a 1-bit ripple CarryBit adder looped into a multi-bit ripple CarryBit adder
     {
-        y[i]=(x[i]^AddOne[i])^CarryBit; //XOR addition of the current elements in x and AddOne and then with the carrybit, all stored in y[i]
+        arr2[i]=(arr1[i]^AddOne[i])^CarryBit; //XOR addition of the current elements in x and AddOne and then with the carrybit, all stored in y[i]
 
-        if (x[i]==1 && AddOne[i]==1) //if x and AddOne were both 1, the CarryBit bit will be 1 next loop
+        if (arr1[i]==1 && AddOne[i]==1) //if x and AddOne were both 1, the CarryBit bit will be 1 next loop
         {
             CarryBit=1;
         }
-        else if (x[i]==1 && CarryBit==1) //if x and the CarryBit bit were both 1, the CarryBit bit will be 1 next loop
+        else if (arr1[i]==1 && CarryBit==1) //if x and the CarryBit bit were both 1, the CarryBit bit will be 1 next loop
         {
             CarryBit=1;
         }
@@ -86,7 +86,7 @@ void BinArrayAdd(void)
         {
             CarryBit=0;
         }
-        x[i]=y[i]; //now that the CarryBit bit has been assigned, the value from y can be moved into x so the values are in place for the next iteration of the outermost loop
+        arr1[i]=arr2[i]; //now that the CarryBit bit has been assigned, the value from y can be moved into x so the values are in place for the next iteration of the outermost loop
 
     }  
 }
@@ -238,7 +238,7 @@ void ExhaustiveSearch(int LHS[][Variables],int RHS[], int v[MaxBin], int Current
     int sameones;
     for(k=0;k<MaxBin;k++) //this largest loop controls the whole process, running through steps 1-4 until all possible solutions have been tested
     {
-        BinArrayAdd();
+        BinArrayAdd((Variables-1),x,y);
         if (ShowFullDebug==true) //shows the specific solution set being tested
         {
             printf("Solution Tested = %d\n",k+1); 
