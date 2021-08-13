@@ -22,8 +22,6 @@ int tempb[MaxCombs] = { 0 }; //same as tempA but for the RHS of the input system
 int reducedA[MaxCombs][Variables] = { 0 }; //holds the input system after it's been reduced
 int reducedb[MaxCombs] = { 0 }; //holds the RHS of the input system after it's been recued
 int samecoef[MaxCombs] = { 0 }; //for counting the number of coefficients in common between two equations during SimCheck
-int testarray[1][Variables] = { 0,1,1,0,1,0,1,1,0,0 };
-int size = 0;
 
 int randbit(void) //Generates random bits
 { 
@@ -31,8 +29,10 @@ int randbit(void) //Generates random bits
     return n;
 }
 
-int GenArrays(void) //populates A[] and b[] with random bits, only up to the number of equations specified by InitEqs
+int GenArrays(void) 
 {
+    //populates A[] and b[] with random bits
+    //only up to the number of equations specified by InitEqs
     int i, j;
     srand(time(0));
     for(i=0;i<InitEqs;i++)
@@ -50,8 +50,9 @@ int GenArrays(void) //populates A[] and b[] with random bits, only up to the num
     return 1;
 }
 
-int LoadArrays(void) //For Loading Preset Arrays into the program
+int LoadArrays(void) 
 {
+    //For Loading Preset Arrays into the program
     int i, j;
     for(i=0;i<InitEqs;i++)
     {
@@ -65,25 +66,7 @@ int LoadArrays(void) //For Loading Preset Arrays into the program
     return 1;
 }
 
-int LinCombs1d(int arr[InitEqs]) //creates all possible linear combinations of the Initial Equations and appends them into A[] and b[] after the Initial Equations
-{
-    int i = 0;
-    int j;
-    {
-        for (j = 0; j < InitEqs; j++) //within the iteration of the current first equation, iterate through all the following equations
-        {
-            arr[i+InitEqs]=arr[j+1]^arr[j]; //Store the linear combination of the solutions at the next free row in b[]
-            i++;
-            if (i == Equations) //if the counter i is equal to the maximum possible number of linear combinations, break out of the function
-            {
-                break;
-            }
-        }
-    }
-    return 1;
-}
-
-int LinCombs2d(int arr[InitEqs][Variables]) //creates all possible linear combinations of the Initial Equations and appends them into A[] and b[] after the Initial Equations
+int LinCombs(int arr[InitEqs][Variables]) //creates all possible linear combinations of the Initial Equations and appends them into A[] and b[] after the Initial Equations
 {
     int i=0;
     int h, j, k;

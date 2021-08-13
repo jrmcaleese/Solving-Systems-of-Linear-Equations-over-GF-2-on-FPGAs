@@ -21,14 +21,14 @@
   <ItemGroup>
     <ClCompile Include="ProjectFiles\ArrayHandling.c" />
     <ClCompile Include="ProjectFiles\main.c" />
-    <ClCompile Include="ProjectFiles\RefinedSearch.c" />
+    <ClCompile Include="ProjectFiles\RecursiveSearch.c" />
     <ClCompile Include="ProjectFiles\SimilarityCheck.c" />
     <ClCompile Include="ProjectFiles\VariableExhaustiveSearch.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProjectFiles\ArrayHandling.h" />
     <ClInclude Include="ProjectFiles\parameters.h" />
-    <ClInclude Include="ProjectFiles\RefinedSearch.h" />
+    <ClInclude Include="ProjectFiles\RecursiveSearch.h" />
     <ClInclude Include="ProjectFiles\SimilarityCheck.h" />
     <ClInclude Include="ProjectFiles\VariableExhaustiveSearch.h" />
   </ItemGroup>
