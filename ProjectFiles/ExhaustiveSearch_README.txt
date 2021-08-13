@@ -1,6 +1,9 @@
-A Modified Exhaustive Search Algorithm for Solving Systems of Quadratic Equations over GF(2)
+/*
+======================================================================================================================================================
+======================================================================================================================================================
+Instructions for handling a Variable Exhaustive Search
 Author: James R. McAleese
-Last Updated: July 14th, 2021
+Last Updated: August 12th, 2021
 
 TO USE: 
 
@@ -11,14 +14,14 @@ TO USE:
 
     - Equations: The maximum number of equations in the system. Equal to InitEqs + MaxCombs
 
-    - Variables: The number of variables per equation in the system
+    - Variables: The number of variables per equation in the system + 1 for the RHS values
     
     - MaxBin:The maximum possible decimal value of a binary number with the same number of digits as variables in your system. 
              This is defined manually because C does not natively allow exponentiation without functions and does not allow function calling in declarations/define statements
 
     - MinSame: The minimum number of coefficients that two equations must have in common to pass the SimCheck2d() function
 
-    -Loop Reduce: The number of times the program attempts to reduce the initial system. Only takes effect if both ReduceSystem and RepeatReduce are TRUE
+    -Loop Reduce: The number of times the program attempts to reduce the initial system when using VariableExhaustiveSearch. Only takes effect if both ReduceSystem and RepeatReduce are TRUE
 
 
 2. This program can perform a variety of functions on various kinds of systems, toggle the Usage Bools below to control the output:
@@ -55,3 +58,4 @@ To display more information toggle the Debug Bools below:
 
 ======================================================================================================================================================
 ======================================================================================================================================================
+*/

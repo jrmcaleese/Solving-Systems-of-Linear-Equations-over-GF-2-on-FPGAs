@@ -9,9 +9,9 @@
 
 int A[Equations][Variables] = { 0 };
 int b[Equations]={0};
-int AddOne[Variables] = { 0 };
-int x[Variables] = { 0 }; //an array for storing final results in the binary counter
-int y[Variables] = { 0 }; // an array for temp storing results in the binary counter
+int AddOne[Variables-1] = { 0 };
+int x[Variables-1] = { 0 }; //an array for storing final results in the binary counter
+int y[Variables-1] = { 0 }; // an array for temp storing results in the binary counter
 int EqSum[Equations] = { 0 }; //an array for storing the sums of each equation to test them against their respective values in b[]
 int invalid[MaxBin] = { 0 }; //an array for storing invalid solutions
 int valid[MaxBin] = { 0 }; //an array for marking the which solutions are valid
@@ -22,8 +22,6 @@ int tempb[MaxCombs] = { 0 }; //same as tempA but for the RHS of the input system
 int reducedA[MaxCombs][Variables] = { 0 }; //holds the input system after it's been reduced
 int reducedb[MaxCombs] = { 0 }; //holds the RHS of the input system after it's been recued
 int samecoef[MaxCombs] = { 0 }; //for counting the number of coefficients in common between two equations during SimCheck
-int testarray[1][Variables] = { 0,1,1,0,1,0,1,1,0,0 };
-int size = 0;
 
 int randbit(void) //Generates random bits
 { 
@@ -31,8 +29,11 @@ int randbit(void) //Generates random bits
     return n;
 }
 
-int GenArrays(void) //populates A[] and b[] with random bits, only up to the number of equations specified by InitEqs
+int GenArrays(void) 
 {
+    //populates A[] and b[] with random bits
+    //only up to the number of equations specified by InitEqs
+    int i, j;
     srand(time(0));
     for(i=0;i<InitEqs;i++)
     {
@@ -45,12 +46,14 @@ int GenArrays(void) //populates A[] and b[] with random bits, only up to the num
     {
         b[i]=randbit();
     } 
-    AddOne[(Variables-1)]=1;
+    AddOne[(Variables-2)]=1;
     return 1;
 }
 
-int LoadArrays(void) //For Loading Preset Arrays into the program
+int LoadArrays(void) 
 {
+    //For Loading Preset Arrays into the program
+    int i, j;
     for(i=0;i<InitEqs;i++)
     {
         for(j=0;j<Variables;j++)
@@ -59,30 +62,14 @@ int LoadArrays(void) //For Loading Preset Arrays into the program
         }
         b[i]=InitSums[i];
     }
-    AddOne[(Variables-1)]=1;
+    AddOne[(Variables-2)]=1;
     return 1;
 }
 
-int LinCombs1d(int arr[InitEqs]) //creates all possible linear combinations of the Initial Equations and appends them into A[] and b[] after the Initial Equations
+int LinCombs(int arr[InitEqs][Variables]) //creates all possible linear combinations of the Initial Equations and appends them into A[] and b[] after the Initial Equations
 {
-    i = 0;
-    {
-        for (j = 1 + h; j < InitEqs; j++) //within the iteration of the current first equation, iterate through all the following equations
-        {
-            arr[i+InitEqs]=arr[h]^arr[j]; //Store the linear combination of the solutions at the next free row in b[]
-            i++;
-            if (i == Equations) //if the counter i is equal to the maximum possible number of linear combinations, break out of the function
-            {
-                break;
-            }
-        }
-    }
-    return 1;
-}
-
-int LinCombs2d(int arr[InitEqs][Variables]) //creates all possible linear combinations of the Initial Equations and appends them into A[] and b[] after the Initial Equations
-{
-    i=0;
+    int i=0;
+    int h, j, k;
     for(h=0;h<InitEqs-1;h++) //Iterates through all initial equations but hte last one, which will have already been combined with all the others
     {
         for(j=1+h;j<InitEqs;j++) //within the iteration of the current first equation, iterate through all the following equations
@@ -103,6 +90,7 @@ int LinCombs2d(int arr[InitEqs][Variables]) //creates all possible linear combin
 
 int PrintLCArrays(void)
 {
+    int i, j;
     printf("A[] = \n");
     for (i = 0; i < Equations; i++)
     {
@@ -141,14 +129,14 @@ int PrintLCArrays(void)
 
 void InvertRows(int arr1[][Variables], int size)
 {
-    int count;
+    int i,j,count;
     for (i = 0; i < size; i++)
     {
         count = 0;
         printf("Equation %d count =", (i + 1));
-        for (f = 0; f < Variables; f++)
+        for (j = 0; j < Variables; j++)
         {
-            if (arr1[i][f] == 1)
+            if (arr1[i][j] == 1)
             {
                 count = count + 1;
             }
@@ -173,6 +161,7 @@ void InvertRows(int arr1[][Variables], int size)
 
 int PrintreducedArrays(bool repeat) //prints A[] and b[] in a readable format
 {
+    int i, j;
     if(ReduceSystem==true)
     {
         if(repeat == false)
